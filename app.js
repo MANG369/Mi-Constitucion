@@ -10,13 +10,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Cargar la Constitución desde el archivo JSON
     async function cargarConstitucion() {
         try {
+            // Aseguramos que el nombre del archivo esté en minúsculas
             const response = await fetch('constitucion.json');
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
             constitucionData = await response.json();
             mostrarIndice();
+            // Mostramos el preámbulo al inicio
+            mostrarPreambulo();
         } catch (error) {
             console.error('Error al cargar la Constitución:', error);
-            contenido.innerHTML = '<p>No se pudo cargar el contenido. Por favor, intente de nuevo más tarde.</p>';
+            contenido.innerHTML = '<p>No se pudo cargar el contenido. Por favor, intente de nuevo más tarde o verifique la conexión.</p>';
         }
+    }
+
+    // Muestra el preámbulo en la pantalla de bienvenida
+    function mostrarPreambulo() {
+        contenido.innerHTML = `
+            <div class="bienvenida">
+                <h2>Preámbulo</h2>
+                <p>${constitucionData.preambulo}</p>
+                <hr>
+                <p>Selecciona un título del índice para comenzar a leer o utiliza el buscador.</p>
+            </div>
+        `;
     }
 
     // 2. Generar el índice de navegación
@@ -30,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
             a.onclick = (e) => {
                 e.preventDefault();
                 mostrarContenidoTitulo(index);
+                // En móvil, oculta el índice o desplázate al contenido (opcional)
+                if (window.innerWidth <= 768) {
+                    contenido.scrollIntoView({ behavior: 'smooth' });
+                }
             };
             li.appendChild(a);
             listaTitulos.appendChild(li);
@@ -41,20 +63,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const titulo = constitucionData.titulos[index];
         contenido.innerHTML = `<h2>${titulo.nombre}</h2>`;
 
-        if (titulo.articulos) {
-            titulo.articulos.forEach(articulo => {
-                contenido.innerHTML += crearHTMLArticulo(articulo);
-            });
-        }
-
-        if (titulo.capitulos) {
-            titulo.capitulos.forEach(capitulo => {
-                contenido.innerHTML += `<h3>${capitulo.nombre}</h3>`;
-                capitulo.articulos.forEach(articulo => {
+        // Función recursiva para mostrar artículos de títulos, capítulos y secciones
+        function renderArticulos(items) {
+            if (items.articulos) {
+                items.articulos.forEach(articulo => {
                     contenido.innerHTML += crearHTMLArticulo(articulo);
                 });
-            });
+            }
+            if (items.capitulos) {
+                items.capitulos.forEach(capitulo => {
+                    contenido.innerHTML += `<h3>${capitulo.nombre}</h3>`;
+                    renderArticulos(capitulo); // Llamada recursiva
+                });
+            }
+             if (items.secciones) {
+                items.secciones.forEach(seccion => {
+                    contenido.innerHTML += `<h4>${seccion.nombre}</h4>`;
+                    renderArticulos(seccion); // Llamada recursiva
+                });
+            }
         }
+        renderArticulos(titulo);
     }
 
     // Función auxiliar para crear el HTML de un artículo
@@ -70,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="articulo-header">
                     <span class="articulo-numero">Artículo ${articulo.numero}</span>
                     <div class="articulo-acciones">
-                        <button title="Añadir a favoritos">⭐</button>
-                        <button title="Añadir nota">📝</button>
+                        <button title="Añadir a favoritos (próximamente)">⭐</button>
+                        <button title="Añadir nota (próximamente)">📝</button>
                     </div>
                 </div>
                 <p>${textoArticulo}</p>
@@ -81,34 +110,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Implementar la búsqueda
     function buscar() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
+        const searchTerm = searchInput.value.trim();
         if (searchTerm.length < 3) {
-            contenido.innerHTML = '<div class="bienvenida"><p>Introduce al menos 3 caracteres para buscar.</p></div>';
+            if(searchTerm.length === 0) mostrarPreambulo();
             return;
         }
-
-        contenido.innerHTML = `<h2>Resultados para "${searchInput.value}"</h2>`;
+        
+        const searchTermLower = searchTerm.toLowerCase();
+        contenido.innerHTML = `<h2>Resultados para "${searchTerm}"</h2>`;
         let resultadosEncontrados = 0;
 
         constitucionData.titulos.forEach(titulo => {
-            if (titulo.articulos) {
-                titulo.articulos.forEach(articulo => {
-                    if (articulo.texto.toLowerCase().includes(searchTerm) || String(articulo.numero) === searchTerm) {
-                        contenido.innerHTML += crearHTMLArticulo(articulo, searchInput.value);
-                        resultadosEncontrados++;
-                    }
-                });
-            }
-            if (titulo.capitulos) {
-                titulo.capitulos.forEach(capitulo => {
-                    capitulo.articulos.forEach(articulo => {
-                       if (articulo.texto.toLowerCase().includes(searchTerm) || String(articulo.numero) === searchTerm) {
-                           contenido.innerHTML += crearHTMLArticulo(articulo, searchInput.value);
-                           resultadosEncontrados++;
-                       }
+            const buscarEnSeccion = (seccion) => {
+                if(seccion.articulos) {
+                    seccion.articulos.forEach(articulo => {
+                        if (String(articulo.numero) === searchTerm || articulo.texto.toLowerCase().includes(searchTermLower)) {
+                            contenido.innerHTML += crearHTMLArticulo(articulo, searchTerm);
+                            resultadosEncontrados++;
+                        }
                     });
-                });
-            }
+                }
+                if(seccion.capitulos) seccion.capitulos.forEach(buscarEnSeccion);
+                if(seccion.secciones) seccion.secciones.forEach(buscarEnSeccion);
+            };
+            buscarEnSeccion(titulo);
         });
 
         if (resultadosEncontrados === 0) {
@@ -124,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             themeToggle.textContent = '🌙';
         } else {
             document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️';
+            themeToggle.textContent = ☀️';
         }
     }
 
