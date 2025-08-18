@@ -1,0 +1,131 @@
+/* Variables para temas */
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --primary-color: #0056b3;
+    --card-bg: #ffffff;
+    --border-color: #ddd;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --primary-color: #4dabf7;
+    --card-bg: #1e1e1e;
+    --border-color: #444;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+    background-color: var(--card-bg);
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    text-align: center;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.toolbar {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+#search-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+#theme-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+#indice {
+    flex: 1;
+    max-width: 300px;
+    padding-right: 1rem;
+}
+
+#indice ul {
+    list-style: none;
+    padding: 0;
+}
+
+#indice a {
+    text-decoration: none;
+    color: var(--primary-color);
+    display: block;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+#indice a:hover {
+    background-color: var(--border-color);
+}
+
+#contenido {
+    flex: 3;
+}
+
+.articulo {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.articulo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.articulo-numero {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.articulo-acciones button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.highlight {
+    background-color: #ffc107;
+    color: #000;
+}
