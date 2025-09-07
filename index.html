@@ -11,20 +11,22 @@
         <h1>Mi Constitución</h1>
         <div class="toolbar">
             <input type="search" id="search-input" placeholder="Buscar artículo o palabra clave...">
-            <button id="theme-toggle">🌙</button>
+            <button id="theme-toggle" aria-label="Cambiar tema claro/oscuro">🌙</button>
         </div>
     </header>
 
     <div class="container">
         <nav id="indice">
             <h2>Índice</h2>
-            <ul id="lista-titulos">
-                <!-- El índice se generará aquí con JavaScript -->
+            <ul id="lista-favoritos">
+                <li><a href="#" id="fav-link">📘 Ver Favoritos</a></li>
             </ul>
+            <hr>
+            <ul id="lista-titulos">
+                </ul>
         </nav>
         
         <main id="contenido">
-            <!-- El contenido de los artículos se mostrará aquí -->
             <div class="bienvenida">
                 <h2>Bienvenido a Mi Constitución</h2>
                 <p>Selecciona un título del índice para comenzar a leer o utiliza el buscador.</p>
