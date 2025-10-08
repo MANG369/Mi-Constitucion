@@ -1,0 +1,5 @@
+{
+  "name": "Mi Constitución Venezuela",
+  "description": "Una aplicación web interactiva para explorar, buscar y comprender la Constitución de la República Bolivariana de Venezuela, con interpretaciones de artículos impulsadas por IA utilizando Gemini.",
+  "requestFramePermissions": []
+}
