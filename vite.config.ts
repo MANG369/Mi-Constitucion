@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Mi-Constitucion/', // Nombre exacto de tu repositorio
+  base: '/Mi-Constitucion/',
 });
