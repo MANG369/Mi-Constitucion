@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Constitución - Venezuela</title>
     <script>
-      // This configuration must be included BEFORE the Tailwind CSS script.
-      // It enables the 'class' strategy for dark mode, allowing the app to toggle it.
-      tailwind.config = {
-        darkMode: 'class',
+      tailwind = {
+        config: {
+          darkMode: 'class',
+        }
       }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,10 +19,8 @@
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
-            /* Added for smooth theme transitions */
             transition: background-color 0.3s ease, color 0.3s ease;
         }
-        /* Custom scrollbar for better aesthetics */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
@@ -31,22 +29,10 @@
         .dark ::-webkit-scrollbar-thumb { background: #4a5568; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #718096; }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
-    "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "react": "https://aistudiocdn.com/react@^19.1.1",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Necesitas habilitar JavaScript para ejecutar esta aplicación.</noscript>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>
