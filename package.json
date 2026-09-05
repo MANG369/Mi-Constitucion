@@ -1,12 +1,15 @@
 {
-  "name": "mi-constitución-venezuela",
+  "name": "mi-constitucion-venezuela",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://mang369.github.io/Mi-Constitucion",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react-dom": "^19.1.1",
@@ -16,6 +19,7 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "gh-pages": "^6.1.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }
